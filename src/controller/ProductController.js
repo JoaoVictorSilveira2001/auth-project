@@ -8,21 +8,27 @@ class ProductController {
 
             const data = await Product.findOne({name});
 
-            if (data) return res.send("This product is already registered !");
+            if (data) {
+                return res.send("Product already  registered !");
+            }else {
+                data = await Product.create({name , about , price});
+                return res.json({data});
+            }
 
-            data = await Product.create({name , about , price});
-            return res.send("The product was registered sucessfully :)");
         }catch(err) {
-            return res.status(500).send(`There was a problem with the registration. ${err}`);
+            return res.status(500).send(`There´s a problem with the registration. ${err}`);
         }
-    }
+    } 
 
     async show(req , res) {
         const data = await Product.find();
 
-        if (!data.length == 0) return res.status(404).send("There are no products available !");
-        return res.json({list : data});
+        if (data.length == 0)
+            return res.status(404).send("There are no products available");
+        
+        return res.json({data });
     }
+
 }
 
 export default new ProductController();

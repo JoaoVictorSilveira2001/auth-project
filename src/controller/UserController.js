@@ -12,17 +12,24 @@ class UserController {
 
             data = await User.create({name , email , password});
             return res.json({data});
+
         }catch(err) {
             return res.status(500).send(`There was a problem with the registration. ${err}`);
         }
     }
 
+
     async show(req , res) {
         const data = await User.find();
-        
-        if (!data.length == 0) return res.status(404).send("There are no users !");
-        return res.json({data});
+        if (data.length == 0) {
+            return res.send("There are no users !");
+        }else {
+            return res.json({data});
+        }
     }
+
+
+
 
 }
 
